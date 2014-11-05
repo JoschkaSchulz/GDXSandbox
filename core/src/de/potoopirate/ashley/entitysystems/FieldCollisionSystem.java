@@ -1,0 +1,72 @@
+package de.potoopirate.ashley.entitysystems;
+
+import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Vector2;
+
+import de.potoopirate.ashley.component.CollisionComponent;
+import de.potoopirate.ashley.component.FieldComponent;
+import de.potoopirate.ashley.component.PlayerComponent;
+import de.potoopirate.ashley.component.PositionComponent;
+import de.potoopirate.ashley.component.TextureComponent;
+
+public class FieldCollisionSystem extends EntitySystem {
+
+	private ComponentMapper<PositionComponent> positionMapper;
+	private ComponentMapper<CollisionComponent> collisionMapper;
+	private ComponentMapper<PlayerComponent> playerMapper;
+	private ComponentMapper<TextureComponent> textureMapper;
+	
+	private Engine engine;
+	private ImmutableArray<Entity> players;
+	private ImmutableArray<Entity> fields;
+	private PositionComponent fieldPosition;
+	private PositionComponent playerPosition;
+	private CollisionComponent fieldCollision;
+	private CollisionComponent playerCollision;
+	private TextureComponent playerTexture;
+	private PlayerComponent player;
+	
+	public FieldCollisionSystem() {
+		positionMapper = ComponentMapper.getFor(PositionComponent.class);
+		collisionMapper = ComponentMapper.getFor(CollisionComponent.class);
+		playerMapper = ComponentMapper.getFor(PlayerComponent.class);
+		textureMapper = ComponentMapper.getFor(TextureComponent.class);
+	}
+	
+	@Override
+	public void addedToEngine(Engine engine) {
+		this.engine = engine;
+	}
+
+	@Override
+	public void update(float deltaTime) {
+		super.update(deltaTime);
+		
+		players = engine.getEntitiesFor(Family.getFor(PlayerComponent.class));
+		fields = engine.getEntitiesFor(Family.getFor(FieldComponent.class));
+		
+		for(int p = 0; p < players.size(); p++) {
+			for(int f = 0; f < fields.size(); f++) {
+				fieldCollision = collisionMapper.get(fields.get(f));
+				fieldPosition = positionMapper.get(fields.get(f));
+				playerCollision = collisionMapper.get(players.get(p));
+				playerPosition = positionMapper.get(players.get(p));
+				playerTexture = textureMapper.get(players.get(p));
+				player = playerMapper.get(players.get(p));
+				Circle c1 = new Circle(fieldPosition.x, fieldPosition.y, fieldCollision.circleRadius);
+				Circle c2 = new Circle(playerPosition.x+(playerTexture.textureRegion.getRegionWidth()/2), playerPosition.y+(playerTexture.textureRegion.getRegionHeight()/2), playerCollision.circleRadius);
+				if(!Intersector.overlaps(c1, c2)) {
+					player.currentState = PlayerComponent.STATE_GAME_OVER;
+				}
+			}
+		}
+	}
+	
+}
