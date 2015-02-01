@@ -2,11 +2,13 @@ package de.potoopirate.ashley;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import de.potoopirate.ashley.entity.ExplosionEntity;
 import de.potoopirate.ashley.entity.FieldEntity;
 import de.potoopirate.ashley.entity.PlayerEntity;
 import de.potoopirate.ashley.entitysystems.CollisionSystem;
@@ -14,6 +16,7 @@ import de.potoopirate.ashley.entitysystems.DebugSystem;
 import de.potoopirate.ashley.entitysystems.EnemyControllSystem;
 import de.potoopirate.ashley.entitysystems.FieldCollisionSystem;
 import de.potoopirate.ashley.entitysystems.FieldRenderSystem;
+import de.potoopirate.ashley.entitysystems.LifetimeSystem;
 import de.potoopirate.ashley.entitysystems.MovementSystem;
 import de.potoopirate.ashley.entitysystems.PlayerControllSystem;
 import de.potoopirate.ashley.entitysystems.PlayerSystem;
@@ -62,9 +65,10 @@ public class GameScreen extends ScreenAdapter{
 		engine.addSystem(new PointsRenderSystem(batch));
 		engine.addSystem(new FieldRenderSystem(renderer));
 		engine.addSystem(new PlayerSystem(this));
-		engine.addSystem(new DebugSystem());
+		engine.addSystem(new LifetimeSystem());
+		//engine.addSystem(new DebugSystem());
 	}
-	
+
 	public void showHighscore() {
 		game.showHighscore();
 	}

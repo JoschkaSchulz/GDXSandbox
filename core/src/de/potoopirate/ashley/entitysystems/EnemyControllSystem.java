@@ -19,6 +19,7 @@ import de.potoopirate.ashley.component.EnemyComponent;
 import de.potoopirate.ashley.component.MovementComponent;
 import de.potoopirate.ashley.component.PlayerComponent;
 import de.potoopirate.ashley.component.PositionComponent;
+import de.potoopirate.ashley.entity.EnemyEntity;
 import de.potoopirate.ashley.entity.PlayerEntity;
 
 public class EnemyControllSystem extends IteratingSystem {
@@ -54,7 +55,7 @@ public class EnemyControllSystem extends IteratingSystem {
 	public void addedToEngine(Engine engine) {
 		this.engine = engine;
 		players = engine.getEntitiesFor(Family.getFor(PlayerComponent.class));
-		
+		//engine.addEntity(new EnemyEntity(Gdx.graphics.getWidth()/2-200, Gdx.graphics.getHeight()/2, 0));
 		super.addedToEngine(engine);
 	}
 	
@@ -75,13 +76,13 @@ public class EnemyControllSystem extends IteratingSystem {
 		enemyVector = new Vector2(position.x, position.y);
 		
 		Vector2 dir = new Vector2(playerVector).sub(enemyVector).nor();
-		float ang = dir.angle();
 		
-		float calc = ang - position.direction.angle();
-		
-		position.direction = dir;
+		if(dir.angle(position.direction) > 0) {
+			position.direction.rotate(-0.75f);
+		} else if(dir.angle(position.direction) < 0) {
+			position.direction.rotate(0.75f);
+			
+		}
 		position.rotation = position.direction.angle();
-		
-		
 	}
 }

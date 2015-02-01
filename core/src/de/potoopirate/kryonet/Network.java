@@ -1,5 +1,6 @@
 package de.potoopirate.kryonet;
 
+import com.badlogic.gdx.graphics.Color;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.EndPoint;
 import com.esotericsoftware.kryonet.examples.chat.Network.ChatMessage;
@@ -11,6 +12,7 @@ public class Network {
 		Kryo kryo = endPoint.getKryo();
 		kryo.register(Position.class);
 		kryo.register(Connect.class);
+		kryo.register(Color.class);
 	}
 	
 	static public class Connect {
@@ -21,5 +23,6 @@ public class Network {
 		public int id;
 		public int x;
 		public int y;
+		public Color color;
 	}
 }

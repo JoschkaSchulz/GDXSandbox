@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 
 import de.potoopirate.ashley.component.MovementComponent;
+import de.potoopirate.ashley.component.PlayerComponent;
 import de.potoopirate.ashley.component.PositionComponent;
 
 public class MovementSystem extends IteratingSystem {

@@ -13,12 +13,14 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.physics.bullet.collision.CollisionObjectWrapper;
 import com.badlogic.gdx.utils.Array;
 
+import de.potoopirate.ashley.AssetHandler;
 import de.potoopirate.ashley.component.CollisionComponent;
 import de.potoopirate.ashley.component.MovementComponent;
 import de.potoopirate.ashley.component.PlayerComponent;
 import de.potoopirate.ashley.component.PositionComponent;
 import de.potoopirate.ashley.component.TextureComponent;
 import de.potoopirate.ashley.entity.EnemyEntity;
+import de.potoopirate.ashley.entity.ExplosionEntity;
 import de.potoopirate.ashley.entity.FieldEntity;
 import de.potoopirate.ashley.entity.PlayerEntity;
 
@@ -87,6 +89,7 @@ public class CollisionSystem extends EntitySystem {
 						if(!e1Collision.isCrashed || !e2Collision.isCrashed) {
 							int speed = (int)(e1Movement.speed > e2Movement.speed ? e1Movement.speed+10 : e2Movement.speed+10);
 							newShips.add(new EnemyEntity((int)e1Position.x, (int)e1Position.y, speed));
+							engine.addEntity(new ExplosionEntity(e1Position.x-(AssetHandler.EXPLOSION.getWidth()/2), e1Position.y-(AssetHandler.EXPLOSION.getHeight()/2)));
 						}
 						removeShips.add(entities.get(e1));
 						removeShips.add(entities.get(e2));

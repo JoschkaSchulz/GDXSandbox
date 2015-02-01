@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.potoopirate.ashley.component.CollisionComponent;
 import de.potoopirate.ashley.component.FieldComponent;
+import de.potoopirate.ashley.component.MovementComponent;
 import de.potoopirate.ashley.component.PlayerComponent;
 import de.potoopirate.ashley.component.PositionComponent;
 import de.potoopirate.ashley.component.TextureComponent;
@@ -49,7 +50,7 @@ public class FieldCollisionSystem extends EntitySystem {
 	public void update(float deltaTime) {
 		super.update(deltaTime);
 		
-		players = engine.getEntitiesFor(Family.getFor(PlayerComponent.class));
+		players = engine.getEntitiesFor(Family.getFor(MovementComponent.class));
 		fields = engine.getEntitiesFor(Family.getFor(FieldComponent.class));
 		
 		for(int p = 0; p < players.size(); p++) {
@@ -61,9 +62,11 @@ public class FieldCollisionSystem extends EntitySystem {
 				playerTexture = textureMapper.get(players.get(p));
 				player = playerMapper.get(players.get(p));
 				Circle c1 = new Circle(fieldPosition.x, fieldPosition.y, fieldCollision.circleRadius);
-				Circle c2 = new Circle(playerPosition.x+(playerTexture.textureRegion.getRegionWidth()/2), playerPosition.y+(playerTexture.textureRegion.getRegionHeight()/2), playerCollision.circleRadius);
+				Circle c2 = new Circle(playerPosition.x+(playerTexture.textureRegion.getRegionWidth()), playerPosition.y+(playerTexture.textureRegion.getRegionHeight()), playerCollision.circleRadius);
 				if(!Intersector.overlaps(c1, c2)) {
-					player.currentState = PlayerComponent.STATE_GAME_OVER;
+					playerPosition.direction.rotate(180).nor();
+					playerPosition.rotation -= 180;
+					//player.currentState = PlayerComponent.STATE_GAME_OVER;
 				}
 			}
 		}

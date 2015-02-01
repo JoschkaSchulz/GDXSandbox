@@ -1,23 +1,22 @@
 package de.potoopirate.ashley.entitysystems;
 
+import java.util.Comparator;
+
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
-import de.potoopirate.ashley.component.PlayerComponent;
 import de.potoopirate.ashley.component.PositionComponent;
 import de.potoopirate.ashley.component.TextureComponent;
 
 public class TextureRenderSystem extends IteratingSystem {
 	private Array<Entity> renderQueue;
 	private SpriteBatch batch;
+	private Comparator<Entity> comparator;
 	
 	private TextureRegion texture;
 	private PositionComponent position;
@@ -31,6 +30,14 @@ public class TextureRenderSystem extends IteratingSystem {
 		pm = ComponentMapper.getFor(PositionComponent.class);
 		tm = ComponentMapper.getFor(TextureComponent.class);
 		
+		comparator = new Comparator<Entity>() {
+			@Override
+			public int compare(Entity entityA, Entity entityB) {
+				return (int)Math.signum(pm.get(entityB).z -
+										pm.get(entityA).z);
+			}
+		};
+		
 		this.batch = batch;
 		renderQueue = new Array<Entity>();
 	}
@@ -39,13 +46,15 @@ public class TextureRenderSystem extends IteratingSystem {
 	public void update(float deltaTime) {
 		super.update(deltaTime);
 
+		renderQueue.sort(comparator);
+		
 		batch.begin();
 		for(Entity entity : renderQueue) {
 			texture = tm.get(entity).textureRegion;
 			position = pm.get(entity);
 			batch.draw(texture, position.x, position.y, 
-					32/2, 16/2, 
-					32, 16, 
+					texture.getRegionWidth()/2, texture.getRegionHeight()/2, 
+					texture.getRegionWidth(), texture.getRegionHeight(), 
 					1, 1, position.rotation);
 		}
 		batch.end();

@@ -17,6 +17,7 @@ import de.potoopirate.miner.world.GameWorld;
 import de.potoopirate.miner.world.GameWorldTile;
 import de.potoopirate.play.GooglePlayInterface;
 import de.potoopirate.potoodemo.PotooDemo;
+import de.potoopirate.protonet.ProtonetScreen;
 
 public class GDXSandbox extends Game {
 	SpriteBatch batch;
@@ -27,6 +28,7 @@ public class GDXSandbox extends Game {
 	GameWorldTile[][] mGameWorldTiles;
 	
 	AshleyTest ashleyTest;
+	ProtonetScreen protonet;
 	
 	PotooDemo demo;
 	
@@ -44,8 +46,9 @@ public class GDXSandbox extends Game {
 		
 		//ashleyTest = new AshleyTest(batch, this);
 		//demo = new PotooDemo(batch);
-		
-		setScreen(new KryonetTest(batch));
+		protonet = new ProtonetScreen();
+		setScreen(protonet);
+		//setScreen(new KryonetTest(batch));
 	}
 
 	@Override

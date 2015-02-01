@@ -27,6 +27,8 @@ public class PlayerControllSystem extends IteratingSystem {
 	private MovementComponent movement;
 	private float speed;
 	private float rotate;
+	private int x1;
+	private int x2;
 	
 	private ComponentMapper<PlayerComponent> playerMapper;
 	private ComponentMapper<PositionComponent> positionMapper;
@@ -47,19 +49,42 @@ public class PlayerControllSystem extends IteratingSystem {
 	public void update(float deltaTime) {
 		super.update(deltaTime);
 		
-		System.out.println("Speed: " + Gdx.input.getPitch() + " / Turn: " + Gdx.input.getRoll());
-		
-		if(Gdx.input.isKeyPressed(Keys.W) || Gdx.input.getRoll() > 0) {
+		/*if(Gdx.input.isKeyPressed(Keys.W) || Gdx.input.getRoll() > 0) {
 			speed = 1;
 		}
 		if(Gdx.input.isKeyPressed(Keys.S) || Gdx.input.getRoll() < -120) {
 			speed = -1;
+		}*/
+		
+		
+		if(Gdx.input.isTouched(0)) {
+			x1 = Gdx.input.getX(0);
+			if(x1 > Gdx.graphics.getWidth()/2) {
+				rotate = 1;
+			}
+			if(x1 < Gdx.graphics.getWidth()/2) {
+				rotate = -1;
+			}
+		} 
+		
+		if(Gdx.input.isTouched(1)) {
+			x2 = Gdx.input.getX(1);
+			if(x2 > Gdx.graphics.getWidth()/2) {
+				rotate = 1;
+			}
+			if(x2 < Gdx.graphics.getWidth()/2) {
+				rotate = -1;
+			}
 		}
 		
-		if(Gdx.input.isKeyPressed(Keys.A) || Gdx.input.getPitch() > 30) {
+		if(!Gdx.input.isTouched(0) && !Gdx.input.isTouched(1)) {
+			rotate = 0;
+		}
+		
+		if(Gdx.input.isKeyPressed(Keys.A)) {
 			rotate = 1;
 		}
-		if(Gdx.input.isKeyPressed(Keys.D) || Gdx.input.getPitch() < -30) {
+		if(Gdx.input.isKeyPressed(Keys.D)) {
 			rotate = -1;
 		}
 	}

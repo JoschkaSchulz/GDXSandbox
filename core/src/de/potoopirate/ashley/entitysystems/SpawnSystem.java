@@ -27,7 +27,8 @@ public class SpawnSystem extends EntitySystem {
 		
 		if(counter > SPAWN_TIME) {
 			counter = 0;
-			int rand = (int)(Math.random()*4);
+			engine.addEntity(new EnemyEntity(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, 50));
+			/*int rand = (int)(Math.random()*4);
 			switch(rand) {
 			case 0:
 				engine.addEntity(new EnemyEntity(0, 0, 50));
@@ -41,7 +42,7 @@ public class SpawnSystem extends EntitySystem {
 			case 3:
 				engine.addEntity(new EnemyEntity(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 50));
 				break;
-			}
+			}*/
 		}
 	}
 }

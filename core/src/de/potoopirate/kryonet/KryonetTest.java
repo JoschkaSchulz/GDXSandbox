@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import de.potoopirate.kryonet.systems.KryonetClientSystem;
 import de.potoopirate.kryonet.systems.KryonetServerSystem;
+import de.potoopirate.kryonet.systems.RenderSystem;
 
 public class KryonetTest extends ScreenAdapter {
 	
@@ -31,6 +32,7 @@ public class KryonetTest extends ScreenAdapter {
 		}else if(Gdx.input.isKeyPressed(Keys.C) && engine.getSystem(KryonetServerSystem.class) == null) {
 			System.out.println("Added a Client:");
 			engine.addSystem(new KryonetClientSystem());
+			engine.addSystem(new RenderSystem());
 		}
 	}
 }
