@@ -7,12 +7,16 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 
 import de.potoopirate.ashley.GameScreen;
+import de.potoopirate.ashley.component.HighscoreComponent;
 import de.potoopirate.ashley.component.PlayerComponent;
 
 public class PlayerSystem extends IteratingSystem {
 
 	private ComponentMapper<PlayerComponent> playerMapper;
 	private PlayerComponent player;
+	
+	private ComponentMapper<HighscoreComponent> highscoreMapper;
+	private HighscoreComponent highscore;
 	
 	private Engine engine;
 	private GameScreen screen;
@@ -35,9 +39,9 @@ public class PlayerSystem extends IteratingSystem {
 		player = playerMapper.get(entity);
 		
 		if(player.currentState == PlayerComponent.STATE_GAME_OVER) {
-				engine.removeAllEntities();
-				engine.removeSystem(engine.getSystem(SpawnSystem.class));
-				screen.showHighscore();
+			engine.removeAllEntities();
+			engine.removeSystem(engine.getSystem(SpawnSystem.class));
+			screen.showHighscore();
 		}
 	}
 

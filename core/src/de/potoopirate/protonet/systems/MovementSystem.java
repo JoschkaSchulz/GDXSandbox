@@ -7,11 +7,8 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.sun.j3d.utils.behaviors.picking.Intersect;
 
 import de.potoopirate.protonet.components.AvatarComponent;
 import de.potoopirate.protonet.components.CollisionComponent;
@@ -60,13 +57,19 @@ public class MovementSystem extends EntitySystem {
 					collision2 = collisionMapper.get(user2);
 					if(Intersector.overlaps(collision1.boundingBox, collision2.boundingBox)) {
 						pos = position2.position;
-						xPos = (float)((Math.random()*-500)+250+pos.x);
-						yPos = (float)((Math.random()*-500)+250+pos.y);
-						position2.position.set(xPos, yPos, 0);
-						collision2.boundingBox.setX(xPos);
-						collision2.boundingBox.setY(yPos);
+						xPos = (float)((Math.random()*-1000)+500+pos.x);
+						yPos = (float)((Math.random()*-1000)+500+pos.y);
+						position2.position.set(xPos-50, yPos-50, 0);
+						collision2.boundingBox.setX(xPos-50);
+						collision2.boundingBox.setY(yPos-50);
 						avatar = avatarMapper.get(user2);
-						avatar.avatarImage.addAction(Actions.moveTo(xPos, yPos, 1f));
+						avatar.avatarImage.addAction(Actions.sequence(Actions.moveTo(xPos, yPos, 1f), Actions.run(new Runnable() {	
+								@Override
+								public void run() {
+									avatar.active = true;
+								}
+							})
+						));
 					}
 				}
 			}

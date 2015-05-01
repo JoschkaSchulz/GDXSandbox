@@ -53,7 +53,7 @@ public class GDXSandbox extends Game {
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1);
+		Gdx.gl.glClearColor(0f, 0f, 0f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		super.render();
 		
