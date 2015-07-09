@@ -5,6 +5,7 @@ import java.util.Arrays;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 import de.potoopirate.ashley.AshleyTest;
+import de.potoopirate.box2d.PhysicsTest;
 import de.potoopirate.kryonet.KryonetTest;
 import de.potoopirate.miner.world.GameWorld;
 import de.potoopirate.miner.world.GameWorldTile;
@@ -29,6 +31,7 @@ public class GDXSandbox extends Game {
 	
 	AshleyTest ashleyTest;
 	ProtonetScreen protonet;
+	Screen physicsScreen;
 	
 	PotooDemo demo;
 	
@@ -44,10 +47,21 @@ public class GDXSandbox extends Game {
 		//mGameWorld = GameWorld.getInstance(10, 10);
 		mShapeRenderer = new ShapeRenderer();
 		
+		// - Box2D
+		physicsScreen = new PhysicsTest();
+		setScreen(physicsScreen);
+		
+		// - Game
 		//ashleyTest = new AshleyTest(batch, this);
+		
+		// - Test
 		//demo = new PotooDemo(batch);
-		protonet = new ProtonetScreen();
-		setScreen(protonet);
+		
+		// - Protonet
+		//protonet = new ProtonetScreen();
+		//setScreen(protonet);
+		
+		// - Kryonet
 		//setScreen(new KryonetTest(batch));
 	}
 
